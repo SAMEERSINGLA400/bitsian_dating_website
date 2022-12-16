@@ -1,0 +1,17 @@
+{% extends 'meet/base.html' %}
+{% block content %}
+        {% for profile in profiles %}
+        <article class="media content-section">
+                <div class="media-body">
+                  <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ profile.name }}</a>
+                    <small class="text-muted">{{ profile.date_posted|date:"F d, Y" }}</small>
+                  </div>
+                  <h2><a class="article-title" href="#">{{ profile.name }}</a></h2>
+                  <p class="article-content">{{ profile.likes }}</p>
+                </div>
+              </article>
+              Footer
+              © 2022 G
+        {% endfor %}
+{% endblock content %}
