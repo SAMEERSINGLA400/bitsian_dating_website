@@ -1,0 +1,6 @@
+{% extends 'meet/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+       <h1>   {{ user.username}}       </h1> <!-- user represents current logged in user builtin feature in django and we don't have to add that separately-->
+           
+{% endblock content %}
