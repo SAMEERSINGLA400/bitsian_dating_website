@@ -9,7 +9,18 @@
            <p class="text-secondary">{{ user.email }}</p>
          </div>
        </div>
-       <!-- FORM HERE -->
+       <form method ="POST" enctype = "multipart/form-data">
+              {% csrf_token %}
+              <fieldset class ="form-group">
+                  <legend class="border-bottom mb-4">Enter New Profile Info</legend>
+                  {{ u_form|crispy }}
+                  {{ p_form|crispy }}
+
+              </fieldset>         
+              <divclass = "form-group">
+                  <button class="btn btn-online-info" type="submit">Update</button>
+              </div>   
+       </form>
 </div>                              <!-- user represents current logged in user builtin feature in django -->
                                            <!--and we don't have to add that separately-->
 {% endblock content %}                           

@@ -13,3 +13,5 @@ class Profile(models.Model):
     def __str__(self):
         return self.name
 
+class Request_To_Chat(models.Model):
+    username =  models.CharField(max_length=100)
