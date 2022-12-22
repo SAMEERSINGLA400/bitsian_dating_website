@@ -18,16 +18,18 @@ def about(request):
 
 
 def req_to_chat(request):
+    user1 = User.objects.get(username=request.user.username)
+   
     chat = {
-        'name': Request_To_Chat.objects.all()
-    }
+        'name': Request_To_Chat.objects.all(),
+}
     abcd = Request_To_Chat.objects.all()
     for names in abcd:
-        if names.name1 == request.POST['profile_name']:
+        if names.name1 == request.POST['profile_name'] and names.name2 == user1 :
              return render(request,'meet/req_to_chat.html',chat)
             
-    else:
-        if request.method == 'POST' :
+    
+    if request.method == 'POST' :
                 s = request.POST['profile_name']
                 user = User.objects.get(username=request.user.username)
 
