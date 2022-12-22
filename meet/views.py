@@ -25,7 +25,7 @@ def req_to_chat(request):
 }
     abcd = Request_To_Chat.objects.all()
     for names in abcd:
-        if names.name1 == request.POST['profile_name'] and names.name2 == user1 :
+        if names.name1 == request.POST['profile_name']  :
              return render(request,'meet/req_to_chat.html',chat)
             
     
