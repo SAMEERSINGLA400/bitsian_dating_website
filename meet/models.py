@@ -14,4 +14,10 @@ class Profile(models.Model):
         return self.name
 
 class Request_To_Chat(models.Model):
-    username =  models.CharField(max_length=100)
+    name1 =  models.CharField(max_length=100)
+    name2 =  models.CharField(max_length=100, default= 'none')
+
+     
+    def __str__(self):
+
+        return self.name2 + 'requested to chat with' + self.name1

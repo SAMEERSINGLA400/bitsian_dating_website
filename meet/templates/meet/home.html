@@ -1,5 +1,7 @@
 {% extends 'meet/base.html' %}
 {% block content %}
+
+  
         {% for profile in profiles %}
         <article class="media content-section">
                 <div class="media-body">
@@ -9,14 +11,15 @@
                   </div>
                   <h2><a class="article-title" href="#">{{ profile.name }}</a></h2>
                   <p class="article-content">{{ profile.likes }}</p>
-                  <a target="_blank"
-                    class="btn btn-info pull-right"
-                    href "#">
-                    REQUEST TO CHAT
-                  </a>
+              <form action="req_to_chat" method="post">
+                {% csrf_token %}
+                  <input type="radio" name= "profile_name" id = "chat" value ={{profile.name}}>
+                  <label for ='chat'>SELECT TO CHAT</label>
                 </div>
               </article>
-              Footer
-              © 2022 G
+              <input type="submit" value="REQUEST TO CHAT">
+            </form>
+
+
         {% endfor %}
 {% endblock content %}
