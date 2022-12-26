@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
+from meet.views import ProfileCreateView
 
 # Create your views here.
 def register(request):
@@ -12,7 +13,7 @@ def register(request):
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Your Account has bee created. you can now log in')
-            return redirect('login')
+            return redirect('http://localhost:8000/profile/new/')
 
     else:
         form = UserRegisterForm()

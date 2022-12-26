@@ -41,6 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'django.contrib.sites',
+
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +138,14 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'meet-home'
 LOGIN_URL = 'login'
+
+# AUTHENTICATION_BACKENDS = (
+#     "django.contrib.auth.backends.ModelBackend"
+#     "allauth.account.auth_backends.AuthenticationBackend"
+# )
+# SITE_ID =1
+# ACCOUNT_EMAIL_VERIFICATION = "none"
+# LOGIN_REDIRECT_URL = "meet-home"
+
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "523526413568-f08ove8cqqkck6mrbv4n1j2ukmdsh1c2.apps.googleusercontent.com"
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"

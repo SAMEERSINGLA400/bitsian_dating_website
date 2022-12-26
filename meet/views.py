@@ -1,8 +1,9 @@
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from .models import Profile,Request_To_Chat
 from .models import Request_To_Chat
 from django.contrib.auth.models import User
-
+from django.views.generic import ListView, DetailView, CreateView , UpdateView
 # Create your views here.
  
 def home(request):
@@ -12,6 +13,37 @@ def home(request):
     }
     
     return render(request, 'meet/home.html',context)
+
+class ProfileListView(ListView):
+    model = Profile
+    template_name = 'meet/home.html' # <app>/<model>_<viewtype>.html
+    context_object_name = 'profiles'
+
+class ProfileDetailView(DetailView):
+    model = Profile
+    
+class ProfileCreateView( LoginRequiredMixin,CreateView):
+    model = Profile
+    fields =['name','likes']
+
+    def form_valid(self,form):
+        form.instance.username = self.request.user 
+        return super().form_valid(form)
+
+class ProfileUpdateView( LoginRequiredMixin,UserPassesTestMixin,CreateView):
+    model = Profile
+    fields =['name','likes']
+
+    def form_valid(self,form):
+        form.instance.username = self.request.user 
+        return super().form_valid(form)
+
+    def test_func(self):
+        profile = self.get_object()
+        if self.request.user == profile.username:
+            return True
+        return False
+
 
 def about(request):
     return render(request, 'meet/about.html')
