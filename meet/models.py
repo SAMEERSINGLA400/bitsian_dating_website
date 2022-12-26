@@ -26,3 +26,10 @@ class Request_To_Chat(models.Model):
     def __str__(self):
 
         return self.name2 + 'requested to chat with' + self.name1
+
+class Block(models.Model):
+    person_blocked = models.CharField(max_length=100)
+    blocked_by = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.blocked_by + ' BLOCKED ' + self.person_blocked

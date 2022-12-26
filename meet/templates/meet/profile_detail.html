@@ -11,16 +11,18 @@
                 {% if object.username == user %}
                     <a class = "btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'profile-update' object.id %}">UPDATE</a>
                 {% endif %}
+                <a class = "btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'profile-report'  %}">REPORT</a>
                 </div>
                 <h2><a class="article-title" href="#">{{ object.name }}</a></h2>
                 <p class="article-content">{{ object.likes }}</p>
-            <form action="req_to_chat" method="post">
+      
+        <form action="block_user" method="post">
             {% csrf_token %}
-                <input type="radio" name= "profile_name" id = "chat" value ={{object.name}}>
-                <label for ='chat'>SELECT TO CHAT</label>
+              <input type="radio" name= "profile_name" id = "chat" value ={{profile.name}}>
+              <label for ='chat'>SELECT TO BLOCK</label>
             </div>
-            </article>
-            <input type="submit" value="REQUEST TO CHAT">
+          </article>
+          <input type="submit" value="CLICK TO BLOCK">
         </form>
 
 

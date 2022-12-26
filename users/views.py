@@ -4,6 +4,9 @@ from django.contrib import messages
 from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from meet.views import ProfileCreateView
+from django.views.generic import ListView, DetailView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Report
 
 # Create your views here.
 def register(request):
@@ -29,3 +32,12 @@ def profile(request):
         'p_form': p_form
     }
     return render(request,'users/profile.html',context)
+
+class ReportView( LoginRequiredMixin,CreateView):
+    model = Report
+    fields =['reported','reason']
+    template_name = 'users/report.html'
+
+    def form_valid(self,form):
+        form.instance.reported_by = self.request.user 
+        return super().form_valid(form)

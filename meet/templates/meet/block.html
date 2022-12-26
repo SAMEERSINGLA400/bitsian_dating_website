@@ -1,0 +1,24 @@
+{% extends 'meet/base.html' %}
+{% block content %}
+
+  
+
+    <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                
+              
+                {% for blocks in blocked %}
+                   
+             
+                    {% if blocks.blocked_by == user.get_username %}
+                    
+                        <h2><a class="article-title" >YOU BLOCKED {{ blocks.person_blocked }}</a></h2>
+                    {% endif %}
+                
+                {% endfor %}
+                </div>
+    
+
+        
+{% endblock content %}

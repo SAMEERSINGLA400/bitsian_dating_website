@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from .models import Profile,Request_To_Chat
-from .models import Request_To_Chat
+from .models import Request_To_Chat,Block
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView , UpdateView
 # Create your views here.
@@ -18,6 +18,14 @@ class ProfileListView(ListView):
     model = Profile
     template_name = 'meet/home.html' # <app>/<model>_<viewtype>.html
     context_object_name = 'profiles'
+
+class BlockView(ListView):
+    model = Block
+    template_name = 'meet/block.html' # <app>/<model>_<viewtype>.html
+    context_object_name = 'blocked'
+
+    
+   
 
 class ProfileDetailView(DetailView):
     model = Profile
@@ -43,6 +51,16 @@ class ProfileUpdateView( LoginRequiredMixin,UserPassesTestMixin,CreateView):
         if self.request.user == profile.username:
             return True
         return False
+
+def block_user(request):
+    if request.method == 'POST' :
+                s = request.POST['profile_name']
+                user = User.objects.get(username=request.user.username)
+
+                data = Block(blocked_by= user , person_blocked=s)
+                data.save()
+    return render(request,'meet/home.html')
+    
 
 
 def about(request):
