@@ -14,6 +14,10 @@ urlpatterns = [
     path('profile/block_user',views.block_user,name ='meet-block'),
     path('profile/new/',ProfileCreateView.as_view(),name = 'profile-create'),
     path('report/',ReportView.as_view(),name = 'profile-report'),
+    path('str<room>/',views.room,name= 'room'),
+    path('chat/',views.chat,name= 'chat'),
+    path('<str:room>/',views.room,name = 'room'),
+
     path('block/',BlockView.as_view(),name = 'profile-block')
 
 ]

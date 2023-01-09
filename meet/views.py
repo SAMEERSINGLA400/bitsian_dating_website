@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from .models import Profile,Request_To_Chat
-from .models import Request_To_Chat,Block
+from .models import Request_To_Chat,Block,Room,Message
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView , UpdateView
 # Create your views here.
@@ -81,6 +81,9 @@ def accepted(request,pk ):
             a = Request_To_Chat.objects.get(id= c)
             a.is_accepted = False
             a.save()
+    name1 = s.name + k
+    ab = Room.objects.create(name= name1)
+    ab.save()
     accept.is_accepted= True
     accept.save()
 
@@ -120,4 +123,13 @@ def req_to_chat(request):
     
     return render(request,'meet/req_to_chat.html',chat)
     
+def room(request,room):
+   return render(request,'meet/room.html')
+
+def chat(request):
+    rooms = {
+        'name': Room.objects.all()
+    }
    
+
+    return render (request,'meet/chats.html', rooms )
