@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from .models import Profile,Request_To_Chat
 from .models import Request_To_Chat,Block
@@ -66,24 +66,56 @@ def block_user(request):
 def about(request):
     return render(request, 'meet/about.html')
 
+def accepted(request,pk ):
+    accept = Request_To_Chat.objects.get(id = pk)
+    s = accept.requestor
+    k = request.user.username
+    if accept.is_accepted:
+         return redirect('/')
+
+    set = Request_To_Chat.objects.all()
+    for a in set:
+        if a.acceptor == s and a.requestor == k:
+            c = a.id
+            print('heelo')
+            a = Request_To_Chat.objects.get(id= c)
+            a.is_accepted = False
+            a.save()
+    accept.is_accepted= True
+    accept.save()
+
+    return redirect('/')
 
 def req_to_chat(request):
     user1 = User.objects.get(username=request.user.username)
    
     chat = {
-        'name': Request_To_Chat.objects.all(),
-}
+        'name': Request_To_Chat.objects.all()
+    }
     abcd = Request_To_Chat.objects.all()
-    for names in abcd:
-        if names.name1 == request.POST['profile_name']  :
-             return render(request,'meet/req_to_chat.html',chat)
+
+
+  # for names in abcd:
+   #     if names.requestor == request.POST['profile_name']  :
+    #         return render(request,'meet/req_to_chat.html',chat)
             
     
     if request.method == 'POST' :
                 s = request.POST['profile_name']
+                accept = Profile.objects.get(name = s)
                 user = User.objects.get(username=request.user.username)
+                req = Profile.objects.get(name = user )
+                for name in abcd:
+                    if name.requestor == req and name.acceptor == accept:
+                        return render(request,'meet/req_to_chat.html',chat)
+                    elif name.requestor == accept and name.acceptor == req:
+                        return render(request,'meet/req_to_chat.html',chat)
 
-                data = Request_To_Chat(name1=s, name2 = user)
+
+
+
+
+                data = Request_To_Chat(requestor =req, acceptor = accept)
                 data.save()
     
     return render(request,'meet/req_to_chat.html',chat)

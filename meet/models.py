@@ -19,13 +19,15 @@ class Profile(models.Model):
 
 
 class Request_To_Chat(models.Model):
-    name1 =  models.CharField(max_length=100)
-    name2 =  models.CharField(max_length=100, default= 'none')
+  
+    requestor = models.ForeignKey(Profile,on_delete=models.CASCADE, default= 2,related_name='%(class)s_requestor')#name2
+    acceptor = models.ForeignKey(Profile,on_delete=models.CASCADE, default= 1,related_name='%(class)s_acceptor')#name1
+    is_accepted = models.BooleanField(null=True)
 
      
     def __str__(self):
 
-        return self.name2 + 'requested to chat with' + self.name1
+        return self.requestor.name + ' requested to chat with' + self.acceptor.name 
 
 class Block(models.Model):
     person_blocked = models.CharField(max_length=100)
