@@ -4,6 +4,7 @@ from .models import Profile,Request_To_Chat
 from .models import Request_To_Chat,Block,Room,Message
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView , UpdateView
+from django.http import HttpResponse,JsonResponse
 # Create your views here.
  
 def home(request):
@@ -32,18 +33,21 @@ class ProfileDetailView(DetailView):
     
 class ProfileCreateView( LoginRequiredMixin,CreateView):
     model = Profile
-    fields =['name','likes']
+
+    fields =['likes']
 
     def form_valid(self,form):
+        form.instance.name = self.request.user
         form.instance.username = self.request.user 
         return super().form_valid(form)
 
 class ProfileUpdateView( LoginRequiredMixin,UserPassesTestMixin,CreateView):
     model = Profile
-    fields =['name','likes']
+    fields =['likes']
 
     def form_valid(self,form):
         form.instance.username = self.request.user 
+        form.instance.name = self.request.user
         return super().form_valid(form)
 
     def test_func(self):
@@ -71,7 +75,7 @@ def accepted(request,pk ):
     s = accept.requestor
     k = request.user.username
     if accept.is_accepted:
-         return redirect('/')
+         return redirect('/about')
 
     set = Request_To_Chat.objects.all()
     for a in set:
@@ -124,12 +128,75 @@ def req_to_chat(request):
     return render(request,'meet/req_to_chat.html',chat)
     
 def room(request,room):
-   return render(request,'meet/room.html')
+    username = request.GET.get('username')
+    room_details = Room.objects.get(name = room)
+
+    return render(request,'meet/room.html',{
+        'username' : username,
+        'room': room,
+        'room_details': room_details
+    })
 
 def chat(request):
+
     rooms = {
         'name': Room.objects.all()
     }
    
 
     return render (request,'meet/chats.html', rooms )
+def check(request):
+    user1 = request.user.username
+    room = request.POST['room_name']
+    msg = Message.objects.all() 
+    ab =  Room.objects.filter(name = room).values()
+    c = ab[0]
+    room_no = str(c['id'])
+   
+
+    for msg_instance in msg:
+        if msg_instance.room==room_no:
+            if msg_instance.user != user1:
+                msg_instance.is_read = True
+                msg_instance.save()
+           
+               
+
+
+
+   
+    return redirect('chat/'+ room + '?username='+ user1)
+
+def send(request):
+    message = request.POST['message']
+    username =  request.POST['username']
+    room_id = request.POST['room_id']
+    new_message= Message.objects.create(value = message, user = username , room = room_id  )
+    new_message.save()
+    return HttpResponse('MEssage Sent Succesfully')
+
+def ShowMessages(request,room):
+    room_details = Room.objects.get(name = room)
+    messages = Message.objects.filter(room = room_details.id)
+    return JsonResponse({"messages":list(messages.values())})
+
+def UnreadMessages(request,room):
+    user1 = request.user.username
+    room_details = Room.objects.get(name = room)
+    messages = Message.objects.filter(room = room_details.id)
+    count = 0
+    for a in messages:
+        if a.user != user1:
+            if a.is_read == False:
+                count+=1
+    op = {'count1':count}
+     
+    
+    return HttpResponse(count)
+
+
+def search(request):
+    query = request.GET['query']
+    profiles = Profile.objects.filter(name__icontains=query)
+
+    return render(request,'meet/search.html',{'profiles':profiles})

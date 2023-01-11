@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import ProfileListView, ProfileDetailView, ProfileCreateView, ProfileUpdateView,BlockView
+from .views import ProfileListView, ProfileDetailView, ProfileCreateView, ProfileUpdateView,BlockView,check
 from users.views import ReportView 
 
 urlpatterns = [
@@ -14,10 +14,13 @@ urlpatterns = [
     path('profile/block_user',views.block_user,name ='meet-block'),
     path('profile/new/',ProfileCreateView.as_view(),name = 'profile-create'),
     path('report/',ReportView.as_view(),name = 'profile-report'),
-    path('str<room>/',views.room,name= 'room'),
+    path('message/send',views.send,name= 'send'),
     path('chat/',views.chat,name= 'chat'),
-    path('<str:room>/',views.room,name = 'room'),
-
-    path('block/',BlockView.as_view(),name = 'profile-block')
+    path('chat/chat/<str:room>/',views.room,name = 'room'),
+    path('chat/checkview',views.check,name = 'check'),
+    path('block/',BlockView.as_view(),name = 'profile-block'),
+    path('ShowMessages/<str:room>/',views.ShowMessages,name = 'ShowMessages'),
+    path('UnreadMessages/<str:room>/',views.UnreadMessages,name = 'UnreadMessages'),
+    path('search/',views.search,name = 'search'),
 
 ]
