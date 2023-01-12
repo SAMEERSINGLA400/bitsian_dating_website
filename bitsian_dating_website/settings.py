@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+import social_django
+# from django.contrib.auth.models import User
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,12 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_tables2',
-    # 'django.contrib.sites',
+    'social_django',
+#     'django.contrib.sites',
 
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
-    # 'allauth.socialaccount.providers.google',
+#     'allauth',
+#     'allauth.account',
+#     'allauth.socialaccount',
+#     'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'bitsian_dating_website.urls'
@@ -73,6 +77,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+
             ],
         },
     },
@@ -130,6 +136,7 @@ STATIC_URL = 'static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -144,15 +151,23 @@ LOGIN_URL = 'login'
 #     "django.contrib.auth.backends.ModelBackend"
 #     "allauth.account.auth_backends.AuthenticationBackend"
 # )
-# SITE_ID =1
+# SITE_ID = 1
 # ACCOUNT_EMAIL_VERIFICATION = "none"
 # LOGIN_REDIRECT_URL = "meet-home"
 
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "523526413568-f08ove8cqqkck6mrbv4n1j2ukmdsh1c2.apps.googleusercontent.com"
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "523526413568-f08ove8cqqkck6mrbv4n1j2ukmdsh1c2.apps.googleusercontent.com"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"
+# SOCIAL_AUTH_USER = User.get_username()
+
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'd91771639@gmail.com'
-EMAIL_HOST_PASSWORD = 'query1234'
+EMAIL_HOST_PASSWORD = 'bevb qyac ugnu tfyz'
 EMAIL_USE_TLS = True
+

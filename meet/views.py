@@ -5,12 +5,34 @@ from .models import Request_To_Chat,Block,Room,Message
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView , UpdateView
 from django.http import HttpResponse,JsonResponse
-from django.core.mail import send_mail
+from .tables import ProfileTable,ReportTable
+from django_tables2 import SingleTableView,MultiTableMixin
+from django.views.generic.base import TemplateView
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
- 
+@login_required
 def home(request):
+    names = Profile.objects.values_list('name')
+    person = 'default'
+    user1 = request.user.username
+    dummylist = []
+    for a in names:
+        dummylist.append(a[0])
+
+    if user1 not in dummylist:
+        person = user1
+        
+
+
+
+    a = Block.objects.filter(blocked_by = request.user.username )
+    l = []
+   
+    for b in a:
+        l.append(b.person_blocked)
     context = {
-        'profiles': Profile.objects.all()
+        'profiles': Profile.objects.filter().exclude(name__in = l),'person':person
 
     }
     
@@ -113,7 +135,7 @@ def req_to_chat(request):
     if request.method == 'POST' :
                 s = request.POST['profile_name']
                 accept = Profile.objects.get(name = s)
-                user = User.objects.get(username=request.user.username)
+                user = request.user.username
                 req = Profile.objects.get(name = user )
                 for name in abcd:
                     if name.requestor == req and name.acceptor == accept:
@@ -129,7 +151,17 @@ def req_to_chat(request):
                 data.save()
     
     return render(request,'meet/req_to_chat.html',chat)
+
+def unblock(request):
+    user1 = User.objects.get(username=request.user.username)
+
     
+    if request.method == 'POST' :
+                s = request.POST['profile_name']
+                a = Block.objects.filter(person_blocked = s,  blocked_by = user1).delete()
+                
+                return redirect('/')
+
 def room(request,room):
     username = request.GET.get('username')
     room_details = Room.objects.get(name = room)
@@ -219,3 +251,10 @@ def search(request):
     profiles = Profile.objects.filter(name__icontains=query)
 
     return render(request,'meet/search.html',{'profiles':profiles})
+
+
+
+class MODProfileListView(MultiTableMixin, TemplateView):
+    model = Profile
+    template_name = "modprofile.html"
+    table_class = ProfileTable

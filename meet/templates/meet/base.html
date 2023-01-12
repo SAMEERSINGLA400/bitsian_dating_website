@@ -50,10 +50,11 @@
           <!-- Navbar Right Side -->
           <div class="navbar-nav">
             {% if user.is_authenticated %}
-         
+            <a class="nav-item nav-link" href="{% url 'meet-chat' %}">Requests</a>
+            <a class="nav-item nav-link" href="{% url 'chat' %}">Chat</a>
             <a class="nav-item nav-link" href="{% url 'logout' %}">Log Out</a>
             <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
-            <a class="nav-item nav-link" href="{% url 'profile-block' %}">BLOCKED</a>
+            <a class="nav-item nav-link" href="{% url 'profile-block' %}">Blocked</a>
 
 
 
