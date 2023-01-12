@@ -5,6 +5,7 @@ from .models import Request_To_Chat,Block,Room,Message
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView , UpdateView
 from django.http import HttpResponse,JsonResponse
+from django.core.mail import send_mail
 # Create your views here.
  
 def home(request):
@@ -19,6 +20,8 @@ class ProfileListView(ListView):
     model = Profile
     template_name = 'meet/home.html' # <app>/<model>_<viewtype>.html
     context_object_name = 'profiles'
+
+   
 
 class BlockView(ListView):
     model = Block
@@ -95,7 +98,7 @@ def accepted(request,pk ):
 
 def req_to_chat(request):
     user1 = User.objects.get(username=request.user.username)
-   
+
     chat = {
         'name': Request_To_Chat.objects.all()
     }
@@ -138,9 +141,25 @@ def room(request,room):
     })
 
 def chat(request):
+    user1 = request.user.username
+    room_details = Room.objects.filter(name__icontains = user1)
+   
+    count = 0
+    l = []
+    for b in room_details:
+        messages = Message.objects.filter(room = b.id)
+        for a in messages:
+            if a.user != user1:
+                if a.is_read == False:
+                    count+=1
+        a = {}
+        a['name']= b.name
+        a['count']= count
+        count = 0
+        l.append(a)
 
     rooms = {
-        'name': Room.objects.all()
+        'name': Room.objects.all(), 'unread':l
     }
    
 
@@ -180,19 +199,19 @@ def ShowMessages(request,room):
     messages = Message.objects.filter(room = room_details.id)
     return JsonResponse({"messages":list(messages.values())})
 
-def UnreadMessages(request,room):
-    user1 = request.user.username
-    room_details = Room.objects.get(name = room)
-    messages = Message.objects.filter(room = room_details.id)
-    count = 0
-    for a in messages:
-        if a.user != user1:
-            if a.is_read == False:
-                count+=1
-    op = {'count1':count}
+# def UnreadMessages(request,room):
+#     user1 = request.user.username
+#     room_details = Room.objects.get(name = room)
+#     messages = Message.objects.filter(room = room_details.id)
+#     count = 0
+#     for a in messages:
+#         if a.user != user1:
+#             if a.is_read == False:
+#                 count+=1
+#     op = {'count1':count}
      
     
-    return HttpResponse(count)
+#     return HttpResponse(count)
 
 
 def search(request):

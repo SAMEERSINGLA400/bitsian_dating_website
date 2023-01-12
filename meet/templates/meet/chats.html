@@ -1,7 +1,7 @@
 {% extends 'meet/base.html' %}
 
 {% block content %}
-<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+<!-- <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
     {% for room in name %}
         {% if user.username in room.name %}
             <div>
@@ -12,6 +12,13 @@
                     
                     <!-- <input type="text" name="username" id="username" width="100px" /> -->
                     <input type="submit" value="CHAT">
+                
+                {% for a in unread%}
+                
+                 {% if a.name == room.name %}
+                        UNREAD MESSAGES: {{ a.count }}
+                 {% endif %}
+                {% endfor %}
                 </form>
                 
             </div>
@@ -19,35 +26,7 @@
     {% endfor %}            
           
 
-    {% for room in name %}
-         {% if user.username in room.name %}
-                <div id = "answer"> </div>
-                <script>
-                    
 
-                        
-                            $.ajax({
-                                type: 'GET',
-                                url : "/UnreadMessages/{{ room.name }}/",
-                                success: function(response){
-                                    
-                                    console.log('in work')
-                                    // // {response}
-                                    name = response
-                                    // $('#c0r0').text(name)
-
-                                    $("#answer").html(name)
-                            
-                                },
-                                error: function(response){
-                                    alert('An error occured')
-                                }
-                            });
-                        
-                        
-
-                </script>
-                 
-        {% endif %}
-    {% endfor %}
+                  
+   
 {% endblock content %}

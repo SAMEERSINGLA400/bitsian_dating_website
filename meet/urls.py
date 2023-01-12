@@ -20,7 +20,7 @@ urlpatterns = [
     path('chat/checkview',views.check,name = 'check'),
     path('block/',BlockView.as_view(),name = 'profile-block'),
     path('ShowMessages/<str:room>/',views.ShowMessages,name = 'ShowMessages'),
-    path('UnreadMessages/<str:room>/',views.UnreadMessages,name = 'UnreadMessages'),
+    # path('UnreadMessages/<str:room>/',views.UnreadMessages,name = 'UnreadMessages'),
     path('search/',views.search,name = 'search'),
 
 ]

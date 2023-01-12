@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_tables2',
     # 'django.contrib.sites',
 
     # 'allauth',
@@ -149,3 +150,9 @@ LOGIN_URL = 'login'
 
 # SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "523526413568-f08ove8cqqkck6mrbv4n1j2ukmdsh1c2.apps.googleusercontent.com"
 # SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'd91771639@gmail.com'
+EMAIL_HOST_PASSWORD = 'query1234'
+EMAIL_USE_TLS = True

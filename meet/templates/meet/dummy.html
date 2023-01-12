@@ -23,3 +23,32 @@
       })
     
     </script>
+
+        <!-- {% for room in name %}
+         {% if user.username in room.name %}
+                <div id = "answer"> </div>
+                <script>
+                    
+
+                        
+                            $.ajax({
+                                type: 'GET',
+                                url : "/UnreadMessages/{{ room.name }}/",
+                                success: function(response){
+                                    
+                                    console.log('in work')
+                                    // // {response}
+                                    name = response
+                                    // $('#c0r0').text(name)
+
+                                    $("#answer").html(name)
+                            
+                                },
+                                error: function(response){
+                                    alert('An error occured')
+                                }
+                            });
+                        
+                        
+
+                </script> -->
