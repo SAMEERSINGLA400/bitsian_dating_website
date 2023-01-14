@@ -9,6 +9,7 @@ from .tables import ProfileTable,ReportTable
 from django_tables2 import SingleTableView,MultiTableMixin
 from django.views.generic.base import TemplateView
 from django.contrib.auth.decorators import login_required
+from users.models import Private_Profile
 
 # Create your views here.
 @login_required
@@ -80,6 +81,23 @@ class ProfileUpdateView( LoginRequiredMixin,UserPassesTestMixin,CreateView):
         if self.request.user == profile.username:
             return True
         return False
+# class Private_ProfileUpdateView( LoginRequiredMixin,UserPassesTestMixin,CreateView):
+#     model = Private_Profile
+#     fields =['image']
+#     template_name ='meet/update_image.html'
+   
+   
+#     def form_valid(self,form):
+#         form.instance.username = self.request.user 
+#         form.instance.name = self.request.user
+#         return super().form_valid(form)
+
+    def test_func(self):
+        profile = self.get_object()
+        if self.request.user == profile.username:
+            return True
+        return False
+
 
 def block_user(request):
     if request.method == 'POST' :
@@ -258,3 +276,18 @@ class MODProfileListView(MultiTableMixin, TemplateView):
     model = Profile
     template_name = "modprofile.html"
     table_class = ProfileTable
+
+def update_username(request):
+    if request.method == "POST":
+        s = request.POST['message']
+        user1 =request.user.username
+        userid = request.user.id
+        a = Private_Profile.objects.get(user = userid)
+        a.user.user = s
+        a.save()
+        b = User.objects.get(username = user1)
+        b.username = s
+        b.save()
+     
+        return redirect('/')
+    return render(request,'meet/dummy.html')

@@ -1,89 +1,31 @@
-<script>
-    $(document).ready(function(){
-    
-      setInterval(function(){
-          $.ajax({
-              type: 'GET',
-              url : "/UnreadMessages/{{room}}/",
-              success: function(response){
-                  
-                  
-                  $("#display").empty();
-                  for (var key in response.messages)
-                  {
-                      var temp="<div class='container darker'><b>"+response.messages[key].user+"</b><p>"+response.messages[key].value+"</p><span class='time-left'>"+response.messages[key].date+"</span></div>";
-                      $("#display").append(temp);
-                  }
-              },
-              error: function(response){
-                  alert('An error occured')
-              }
-          });
-      },5000);
-      })
-    
-    </script>
-
-        <!-- {% for room in name %}
-         {% if user.username in room.name %}
-                <div id = "answer"> </div>
-                <script>
-                    
-
+{% extends 'meet/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+           <!-- <div class = "content-section">
+            <form method ="POST">
+                {% csrf_token %}
+                <fieldset class ="form-group">
+                    <legend class="border-bottom mb-4">Log In</legend>
+                        {{ form|crispy }}
+                </fieldset>         
+                <divclass = "form-group">
+                    <button class="btn btn-online-info" type="submit">LogIn</button>
+                </div>   
+            </form> -->
+            <form  method = 'post' >
+                {% csrf_token %}
+                <input type="text" name="message" id="message" width="100px"  value= {{ user.username }} />
+                <input type="submit" value="UPDATE">
+            </form>
                         
-                            $.ajax({
-                                type: 'GET',
-                                url : "/UnreadMessages/{{ room.name }}/",
-                                success: function(response){
-                                    
-                                    console.log('in work')
-                                    // // {response}
-                                    name = response
-                                    // $('#c0r0').text(name)
-
-                                    $("#answer").html(name)
-                            
-                                },
-                                error: function(response){
-                                    alert('An error occured')
-                                }
-                            });
-                        
-                        
-
-                </script> -->
-
-                <div>
+                <!-- <button class = "btn btn primary mb-2">
+                    <a href="{% url 'social:begin' 'google-oauth2' %}">LOGIN WITH GOOGLE</a>
                     
-                    
-                    <label class="required" for="id_user">User:</label>
-                    
-                        <input type="text" name="user" value="26" required id="id_user" class="vForeignKeyRawIdAdminField">
-<a href="/admin/auth/user/?_to_field=id" class="related-lookup" id="lookup_id_user" title="Lookup"></a>
-<strong><a href="/admin/auth/user/26/change/">dummy2826266272737</a></strong>
-                    
-                
-                
+                </button>
+            <div class="border-top pt-3">
+                <small class=""text-muted">
+                    Need An Account? <a class="ml-2" href="{% url 'register' %}">Sign Up Now</a>
+                </small>
             </div>
-
-            <div class="form-row field-user">
-            
-            
-                <div>
-                    
-                    
-                        <label class="required" for="id_user">User:</label>
-                        
-                            <input type="text" name="user" value="1" required id="id_user" class="vForeignKeyRawIdAdminField">
-<a href="/admin/auth/user/?_to_field=id" class="related-lookup" id="lookup_id_user" title="Lookup"></a>
-<strong><a href="/admin/auth/user/1/change/">SAMEER</a></strong>
-                        
-                    
-                    
-    
-
-
-        <div class="submit-row">
-
-            <input type="submit" value="Save" class="default" name="_save">
-        </div>
+           </div> -->
+{% endblock content %}

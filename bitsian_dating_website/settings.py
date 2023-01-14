@@ -144,7 +144,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_REDIRECT_URL = 'meet-home'
+LOGIN_REDIRECT_URL = 'update_username'
 LOGIN_URL = 'login'
 
 # AUTHENTICATION_BACKENDS = (
@@ -168,11 +168,6 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'd91771639@gmail.com'
-<<<<<<< HEAD
 EMAIL_HOST_PASSWORD = 'bevb qyac ugnu tfyz'
 EMAIL_USE_TLS = True
 
-=======
-EMAIL_HOST_PASSWORD = '#######'
-EMAIL_USE_TLS = True
->>>>>>> 4d302c12e97eef28f5f05b997f8aeabce479e4ab

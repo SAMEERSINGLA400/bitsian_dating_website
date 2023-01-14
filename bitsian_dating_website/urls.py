@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from users import views as user_views
+from meet import views as meet_views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -30,7 +31,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name = 'users/logout.html'), name = 'logout'),
     # path('accounts/',include('allauth.urls')),
     path('social-auth/',include('social_django.urls',namespace = 'social')),
-   
+  #  path('private_profile/<int:pk>/update/',meet_views.Private_ProfileUpdateView.as_view(), name = 'private_profile-update'), 
 ]
 
 if settings.DEBUG:

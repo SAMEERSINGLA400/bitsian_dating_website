@@ -24,5 +24,6 @@ urlpatterns = [
     # path('UnreadMessages/<str:room>/',views.UnreadMessages,name = 'UnreadMessages'),
     path('search/',views.search,name = 'search'),
     path('modprofile/', MODProfileListView.as_view(),name = 'modprofile'),
+    path('username/', views.update_username ,name = 'update_username'),
 
 ]
