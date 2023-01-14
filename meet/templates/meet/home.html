@@ -1,10 +1,7 @@
 {% extends 'meet/base.html' %}
 {% block content %}
 
-        {% if person == user.username%}
-            <a  href="{% url 'profile-create' %}">CREATE YOUR PUBLIC PROFILE</a>
 
-        {% endif %}
         {% for profile in profiles %}
             
          

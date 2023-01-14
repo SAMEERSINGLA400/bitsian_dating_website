@@ -53,6 +53,8 @@ INSTALLED_APPS = [
 #     'allauth.socialaccount.providers.google',
 ]
 
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -80,7 +82,9 @@ TEMPLATES = [
                 'social_django.context_processors.backends',
 
             ],
+       
         },
+
     },
 ]
 
@@ -167,11 +171,8 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'd91771639@gmail.com'
-<<<<<<< HEAD
+
 EMAIL_HOST_PASSWORD = 'bevb qyac ugnu tfyz'
 EMAIL_USE_TLS = True
 
-=======
-EMAIL_HOST_PASSWORD = '#######'
-EMAIL_USE_TLS = True
->>>>>>> 4d302c12e97eef28f5f05b997f8aeabce479e4ab
+

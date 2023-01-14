@@ -10,7 +10,7 @@ from django_tables2 import SingleTableView,MultiTableMixin
 from django.views.generic.base import TemplateView
 from django.contrib.auth.decorators import login_required
 from users.models import Private_Profile
-
+from django.contrib import messages
 # Create your views here.
 @login_required
 def home(request):
@@ -22,7 +22,7 @@ def home(request):
         dummylist.append(a[0])
 
     if user1 not in dummylist:
-        person = user1
+       return redirect('profile/new/')
         
 
 
@@ -33,7 +33,7 @@ def home(request):
     for b in a:
         l.append(b.person_blocked)
     context = {
-        'profiles': Profile.objects.filter().exclude(name__in = l),'person':person
+        'profiles': Profile.objects.filter().exclude(name__in = l)
 
     }
     
@@ -118,13 +118,14 @@ def accepted(request,pk ):
     s = accept.requestor
     k = request.user.username
     if accept.is_accepted:
-         return redirect('/about')
+         messages.success(request, f'REQUEST ALREADY ACCEPTED')
+         return redirect('/')
 
     set = Request_To_Chat.objects.all()
     for a in set:
         if a.acceptor == s and a.requestor == k:
             c = a.id
-            print('heelo')
+            
             a = Request_To_Chat.objects.get(id= c)
             a.is_accepted = False
             a.save()
@@ -134,11 +135,17 @@ def accepted(request,pk ):
     accept.is_accepted= True
     accept.save()
 
-    return redirect('/')
+    return redirect('/chat')
 
 def req_to_chat(request):
+    user2 = request.user.username
     user1 = User.objects.get(username=request.user.username)
-
+    rooms = Room.objects.filter(name__icontains = user2).values_list()
+    user_rooms = []
+    
+    for a in rooms:
+        if user2 in a[1]:
+            user_rooms.append(a[1])
     chat = {
         'name': Request_To_Chat.objects.all()
     }
